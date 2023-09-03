@@ -12,9 +12,10 @@ if __name__=="__main__":
     with st.sidebar:
         
         api_key = st.text_input('OpenAI API Key:', type='password')
-        if api_key:
-            os.environ['OPENAI_API_KEY'] = api_key
-
+        # if api_key:
+        #     os.environ['OPENAI_API_KEY'] = api_key
+        if ["openai_api_key"] not in st.session_state:
+            st.session_state.openai_api_key = api_key
         # file upload widget
         uploaded_file = st.file_uploader("Upload a file :", type=[".pdf", ".docx",".txt"])
 
@@ -50,7 +51,7 @@ if __name__=="__main__":
                 tokens, embedding_cost = calculate_embedding_cost(chunks)
                 st.write(f'Embedding cost: ${embedding_cost:.4f}')
 
-                vector_store = create_embeddings(chunks)
+                vector_store = create_embeddings(chunks,st.session_state.openai_api_key)
 
                 st.session_state.vs = vector_store
 
@@ -67,7 +68,7 @@ if __name__=="__main__":
             # llm = load_llm()
 
             # Question to the LLM with Vector store and retrieval doc value of "k".
-            answer = ask_and_get(vector_store,q,k)
+            answer = ask_and_get(vector_store,q,st.session_state.openai_api_key,k)
 
             st.text_area("LLM answer :", value=answer)
 
