@@ -12,6 +12,7 @@ LICENSE/
 
 .Python
 build/
+files/
 develop-eggs/
 dist/
 downloads/
