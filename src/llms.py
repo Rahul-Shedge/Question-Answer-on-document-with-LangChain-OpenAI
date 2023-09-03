@@ -9,9 +9,9 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 
    
 # 
-def ask_and_get(db,question,k=3):
+def ask_and_get(db,question,api_key,k=3):
     retriever = db.as_retriever(search_type='similarity', search_kwargs={'k': k})
-    llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.1)
+    llm = ChatOpenAI(model='gpt-3.5-turbo', temperature=0.1,openai_api_key = api_key)
     chain = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
     answer = chain.run(question)
     return answer
