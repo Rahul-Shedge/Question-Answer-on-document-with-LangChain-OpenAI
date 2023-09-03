@@ -36,8 +36,8 @@ def chunk_data(document, chunk_size=512, chunk_overlap=55):
     return chunks
 
 
-def create_embeddings(chunks):
-    embeddings = OpenAIEmbeddings()
+def create_embeddings(chunks,api_key):
+    embeddings = OpenAIEmbeddings(openai_api_key=api_key)
     vector_store = Chroma.from_documents(chunks,embeddings)
     return vector_store
 
